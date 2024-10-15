@@ -102,9 +102,20 @@ function debug() {
         jsb.msg("hello")
     }
     const btn2 = mkEle("button", "get User Info", box)
-
+    btn2.onclick = () => {
+        jsb.msg(JSON.stringify(window.Telegram.WebApp.initData))
+    }
 
     const btn3 = mkEle("button", "share", box)
+    btn3.onclick = () => {
+        let tmaUrl = "https://t.me/tele_spin_bot".replace(/^https?:\/\//, "");
+        if (!tmaUrl) return;
+        if (data) {
+            tmaUrl += `?startapp=${btoa(JSON.stringify(data))}`;
+        }
+        const path_full = `/share/url?url=${tmaUrl}&text=${encodeURI(msg)}`;
+        window.Telegram.WebApp.openTelegramLink(path_full)
+    }
 }
 
 
@@ -122,3 +133,24 @@ function mkEle(type, text, father) {
 
 jsb.init()
 debug()
+
+
+
+
+
+function shareTextToSession(msg, data) {
+
+    // if (await isTMA()) {
+    //     if (isWebExpansion()) {
+    //         postEvent("web_app_open_link", {
+    //             url: "https://t.me" + path_full,
+    //         });
+    //         return;
+    //     }
+    //     postEvent("web_app_open_tg_link", {
+    //         path_full,
+    //     });
+    // } else {
+    //     window.open("https://t.me" + path_full, "_blank");
+    // }
+}
